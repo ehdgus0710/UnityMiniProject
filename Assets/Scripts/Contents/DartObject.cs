@@ -1,0 +1,109 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class DartObject : MonoBehaviour
+{
+    [SerializeField]
+    private Transform dartTransform;
+
+    [SerializeField]
+    private float maxWaitPositionY;
+    [SerializeField]
+    private float minWaitPositionY;
+
+    [SerializeField]
+    private float maxPower;
+
+    [SerializeField]
+    private float minPower;
+
+    [SerializeField]
+    private float Destination;
+
+    private Vector2 shootDirection;
+    private Vector2 startPosition;
+
+    [SerializeField]
+    private Vector2 prevPosition;
+    [SerializeField]
+    private float maxScale = 3f;
+
+    private float scale = 0f;
+
+    private bool isShoot = false;
+
+    private float currentTouchTime = 0f;
+    private float currentPower = 0f;
+    private float yawPower = 0f;
+
+    private bool isDown = false;
+
+    private Vector3 localScale;
+
+    void Start()
+    {
+        localScale = dartTransform.transform.localScale;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(isShoot)
+        {
+            Vector3 movePosition = shootDirection * (currentPower * Time.deltaTime);
+            movePosition.z += (currentPower * Time.deltaTime);
+            dartTransform.transform.position += movePosition;
+
+            if (!isDown)
+            {
+                yawPower += 2f * Time.deltaTime;
+
+                dartTransform.transform.localScale = localScale + ( yawPower / currentPower * localScale * maxScale); 
+
+                if (yawPower >= currentPower)
+                {
+                    isDown = true;
+                }
+            }
+            else
+            {
+                dartTransform.transform.localScale = Vector3.Max(localScale, localScale + (yawPower / currentPower * localScale* maxScale));
+                yawPower -= 2f  * Time.deltaTime;
+            }
+
+            if (dartTransform.transform.position.z >= Destination)
+                enabled = false;
+        }
+        else
+        {
+            if (MultiTouchManager.Instance.IsTouchPress)
+            {
+                if(prevPosition.y > dartTransform.position.y)
+                    prevPosition = dartTransform.position;
+                currentTouchTime += Time.deltaTime;
+
+                var position = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                position.y = Mathf.Clamp(position.y, minWaitPositionY, maxWaitPositionY);
+                position.z = 0f;
+                dartTransform.position = position;
+            }
+        }
+
+        if(MultiTouchManager.Instance.IsTouchEnd)
+        {
+            Shoot();
+        }
+
+    }
+
+    private void Shoot()
+    {
+        isShoot = true;
+        shootDirection = ((Vector2)dartTransform.position - prevPosition).normalized;
+
+        currentPower = Mathf.Clamp(currentTouchTime * 5f, minPower, maxPower);
+        yawPower = currentPower;
+    }
+}
