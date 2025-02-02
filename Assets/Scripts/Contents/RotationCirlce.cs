@@ -19,6 +19,7 @@ public class RotationCirlce : MonoBehaviour
     private float currentRotationTime = 0f;
 
     private bool isRotation = false;
+    private bool isStop = false;
 
 
     void Start()
@@ -30,10 +31,22 @@ public class RotationCirlce : MonoBehaviour
     {
         if(isRotation)
         {
-            currentRotationTime += Time.deltaTime;
-            var rotationSpeed = rotationCurve.Evaluate(currentRotationTime/ maxLerpTime) * maxRotationSpeed;
+            if(isStop)
+            {
+                currentRotationTime -= Time.deltaTime;
+                var rotationSpeed = rotationCurve.Evaluate(currentRotationTime/ maxLerpTime) * maxRotationSpeed;
+                roationTarget.rotation *= Quaternion.Euler(Vector3.forward * rotationSpeed);
 
-            roationTarget.rotation *= Quaternion.Euler(Vector3.forward * rotationSpeed);
+                if (currentRotationTime < 0f)
+                    isRotation = false;
+            }
+            else
+            {
+                currentRotationTime += Time.deltaTime;
+                var rotationSpeed = rotationCurve.Evaluate(currentRotationTime/ maxLerpTime) * maxRotationSpeed;
+                roationTarget.rotation *= Quaternion.Euler(Vector3.forward * rotationSpeed);
+            }
+
         }
     }
 
@@ -44,6 +57,7 @@ public class RotationCirlce : MonoBehaviour
 
     public void OnEndRotation()
     {
-        isRotation = false;
+        isStop = true;
+        currentRotationTime = maxLerpTime;
     }
 }

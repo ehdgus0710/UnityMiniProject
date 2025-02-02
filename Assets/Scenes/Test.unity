@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 352488600}
   - component: {fileID: 352488599}
   - component: {fileID: 352488598}
+  - component: {fileID: 352488601}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -315,7 +316,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352488597}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 438a73f671df57146a95286e0bb10970, type: 3}
   m_Name: 
@@ -389,12 +390,34 @@ Transform:
   m_GameObject: {fileID: 352488597}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0, y: -4.45, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &352488601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352488597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6c5819724a2f6d419e26781c4220874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dartTransform: {fileID: 352488600}
+  maxWaitPositionY: -3
+  minWaitPositionY: -5
+  maxPower: 20
+  minPower: 20
+  Destination: 1.75
+  prevPosition: {x: 0, y: 0}
+  maxScale: 3
+  end: {fileID: 1063419515}
+  rotationCirlce: {fileID: 1063419516}
 --- !u!1 &532236266
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,28 +746,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.006788017
-      value: 1.0200045
-      inSlope: -3.468798
-      outSlope: -3.468798
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.07004847
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.9997864
-      value: 1.0056458
-      inSlope: -0.34863994
-      outSlope: -0.34863994
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.13099268
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxRotationSpeed: 10
-  maxLerpTime: 1
+  maxLerpTime: 2
 --- !u!1 &1355279816
 GameObject:
   m_ObjectHideFlags: 0
